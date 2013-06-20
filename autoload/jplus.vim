@@ -30,9 +30,7 @@ function! jplus#join(c) range
 	call setline(start, line)
 
 	if start+1 <= end
-		let tmp = @*
-		execute start+1 . ',' . end 'delete'
-		let @* = tmp
+		execute start+1 . ',' . end 'delete _'
 	endif
 	normal! k
 endfunction
