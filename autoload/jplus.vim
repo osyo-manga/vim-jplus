@@ -3,11 +3,6 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
-function! s:join(start, end, c)
-	return join(map(range(a:start, a:end), "getline('.')"), a:c)
-endfunction
-
-
 function! jplus#join(c) range
 	let c = a:c
 	if type(c) == type(0)
