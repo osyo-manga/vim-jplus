@@ -27,7 +27,7 @@ function! jplus#join(c) range
 	if start+1 <= end
 		execute start+1 . ',' . end 'delete _'
 	endif
-	normal! k
+	normal! -1
 endfunction
 
 let &cpo = s:save_cpo
