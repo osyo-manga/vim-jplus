@@ -1,0 +1,63 @@
+jplus.txt	ステップを入力して行の結合を行います。
+
+==============================================================================
+目次						*jplus-contents*
+
+概要				|jplus-introduction|
+使い方				|jplus-usage|
+インターフェース		|jplus-interface|
+  マッピング			  |textobj-jplus-mapping|
+
+
+
+==============================================================================
+概要						*jplus-introduction*
+
+ステップを入力して行の結合が行うことが出来ます。
+
+before: >
+	aaa
+	bbb
+	ccc
+<
+
+↓↓↓ <Plug>(jplus-getchar)+ ↓↓↓
+
+after: >
+	aaa+bbb+ccc
+<
+
+
+==============================================================================
+使い方						*jplus-usage*
+
+任意のキーにマッピングして使用します。
+
+>
+	" getchar() を使用してステップを入力します
+	nmap <Leader>J <Plug>(jplus-getchar)
+	vmap <Leader>J <Plug>(jplus-getchar)
+
+	" input() を使用したい場合はこちらを使用して下さい
+	" nmap <Leader>J <Plug>(jplus-input)
+	" vmap <Leader>J <Plug>(jplus-input)
+<
+
+
+==============================================================================
+インターフェース				*jplus-interface*
+
+------------------------------------------------------------------------------
+マッピング					*jplus-mapping*
+
+<Plug>(jplus-getchar)				*<Plug>(jplus-getchar)*
+	ステップを入力して行の結合を行います。
+	ステップの入力には |getchar()| が使用されます。
+
+<Plug>(jplus-input)				*<Plug>(jplus-input)*
+	ステップを入力して行の結合を行います。
+	ステップの入力には |input()| が使用されます。
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
