@@ -23,7 +23,6 @@ function! jplus#join(c) range
 		let end = end - 1
 	endif
 
-	echo c
 	let line = getline(start)
 \			 . c
 \			 . join(map(range(start + 1, end),
