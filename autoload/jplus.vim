@@ -25,8 +25,8 @@ function! jplus#join(c) range
 
 	let line = getline(start)
 \			 . c
-\			 . join(map(range(start + 1, end),
-\				'matchstr(getline(v:val), ''^\s*\zs.*'')'), c)
+\			 . join(map(filter(getline(start + 1, end), 'len(v:val)'),
+\				'matchstr(v:val, ''^\s*\zs.*'')'), c)
 	call setline(start, line)
 
 	if start+1 <= end
