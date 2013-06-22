@@ -1,4 +1,4 @@
-jplus.txt	ステップを入力して行の結合を行います。
+jplus.txt	ステップ文字を入力して行の結合を行います。
 
 ==============================================================================
 目次						*jplus-contents*
@@ -13,7 +13,7 @@ jplus.txt	ステップを入力して行の結合を行います。
 ==============================================================================
 概要						*jplus-introduction*
 
-ステップを入力して行の結合が行うことが出来ます。
+ステップ文字を入力して行の結合が行うことが出来ます。
 
 before: >
 	aaa
@@ -34,7 +34,7 @@ after: >
 任意のキーにマッピングして使用します。
 
 >
-	" getchar() を使用してステップを入力します
+	" getchar() を使用してステップ文字を入力します
 	nmap <Leader>J <Plug>(jplus-getchar)
 	vmap <Leader>J <Plug>(jplus-getchar)
 
@@ -51,12 +51,20 @@ after: >
 マッピング					*jplus-mapping*
 
 <Plug>(jplus-getchar)				*<Plug>(jplus-getchar)*
-	ステップを入力して行の結合を行います。
-	ステップの入力には |getchar()| が使用されます。
+	ステップ文字を入力して行の結合を行います。
+	ステップ文字の入力には |getchar()| が使用されます。
+
+<Plug>(jplus-getchar-with-space)		*<Plug>(jplus-getchar-with-space)*
+	|<Plug>(jplus-getchar)| と同様の動作ですが、ステップ文字の左右にスペー
+	スを挿入します。
 
 <Plug>(jplus-input)				*<Plug>(jplus-input)*
-	ステップを入力して行の結合を行います。
-	ステップの入力には |input()| が使用されます。
+	ステップ文字を入力して行の結合を行います。
+	ステップ文字の入力には |input()| が使用されます。
+
+<Plug>(jplus-input-with-space)			*<Plug>(jplus-input-with-space)*
+	|<Plug>(jplus-input)| と同様の動作ですが、ステップ文字の左右にスペー
+	スを挿入します。
 
 
 ==============================================================================
