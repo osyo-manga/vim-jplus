@@ -16,10 +16,10 @@ noremap <silent> <Plug>(jplus-getchar-with-space)
 
 
 noremap <silent> <Plug>(jplus-input)
-\	:call jplus#join(input("Input joint step:"))<CR>
+\	:call jplus#join(input("Input joint sep:"))<CR>
 
 noremap <silent> <Plug>(jplus-input-with-space)
-\	:call jplus#join(' ' . input("Input joint step:") . ' ')<CR>
+\	:call jplus#join(' ' . input("Input joint sep:") . ' ')<CR>
 
 
 let &cpo = s:save_cpo
