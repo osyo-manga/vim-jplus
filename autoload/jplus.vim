@@ -2,6 +2,16 @@ scriptencoding utf-8
 let s:save_cpo = &cpo
 set cpo&vim
 
+function! jplus#getchar()
+	let c = getchar()
+	if type(c) == type(0)
+		return nr2char(c)
+	endif
+	if c !~ '[[:print:]]'
+		return 0
+	endif
+endfunction
+
 
 function! jplus#join(c) range
 	let c = a:c
@@ -25,7 +35,7 @@ function! jplus#join(c) range
 	call setline(start, line)
 
 	if start+1 <= end
-		execute start+1 . ',' . end 'delete _'
+		silent execute start+1 . ',' . end 'delete _'
 	endif
 	normal! -1
 endfunction
