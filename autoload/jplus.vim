@@ -14,7 +14,7 @@ endfunction
 
 
 function! jplus#join(c) range
- c = a:c
+	let c = a:c
 	let start = a:firstline
 	let end = a:lastline + (a:firstline == a:lastline)
 
