@@ -15,13 +15,6 @@ endfunction
 
 function! jplus#join(c) range
 	let c = a:c
-	if type(c) == type(0)
-		let c = nr2char(c)
-	endif
-	if c !~ '[[:print:]]'
-		return 0
-	endif
-	
 	let start = a:firstline
 	let end = a:lastline + (a:firstline == a:lastline)
 	if a:firstline != a:lastline && col('.') == 1
