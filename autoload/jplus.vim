@@ -14,12 +14,9 @@ endfunction
 
 
 function! jplus#join(c) range
-	let c = a:c
+ c = a:c
 	let start = a:firstline
 	let end = a:lastline + (a:firstline == a:lastline)
-	if a:firstline != a:lastline && col('.') == 1
-		let end = end - 1
-	endif
 
 	let line = getline(start)
 \			 . c
