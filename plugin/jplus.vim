@@ -26,7 +26,7 @@ noremap <silent> <Plug>(jplus-input-with-space)
 \	:call jplus#join(<SID>config({ "delimiter": ' ' . input("Input joint sep:") . ' ' }))<CR>
 
 noremap <silent> <Plug>(jplus)
-\	:call jplus#join(<SID>config({}))<CR>
+\	:call jplus#join(<SID>config({ "delimiter" : " " }))<CR>
 
 
 let &cpo = s:save_cpo
