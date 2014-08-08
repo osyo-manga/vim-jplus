@@ -9,7 +9,7 @@ set cpo&vim
 
 
 function! s:config(base)
-	return jplus#config(&filetype, a:base)
+	return jplus#get_config(&filetype, a:base)
 endfunction
 
 

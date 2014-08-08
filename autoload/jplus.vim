@@ -55,12 +55,12 @@ endfunction
 
 
 
-let g:jplus#configs = get(g:, "jplus#configs", {})
+let g:jplus#config = get(g:, "jplus#configs", {})
 
-function! jplus#config(filetype, ...)
+function! jplus#get_config(filetype, ...)
 	let base = get(a:, 1, {})
 	return extend(
-\		extend(get(g:jplus#configs, "_", {}), get(g:jplus#configs, a:filetype, {}))
+\		extend(get(g:jplus#config, "_", {}), get(g:jplus#config, a:filetype, {}))
 \	, base)
 endfunction
 
