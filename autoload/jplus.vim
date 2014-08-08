@@ -24,12 +24,17 @@ let s:counfig = {
 
 
 function! s:join(config)
+
 	let ignore =  a:config.ignore_pattern
 	let match_pattern = a:config.match_pattern
 	let c = a:config.delimiter
 	let start = a:config.firstline
 	let lastline = a:config.lastline
 	let end = lastline + (start == lastline)
+
+	if end > line("$")
+		return
+	endif
 
 	let next = join(map(filter(map(getline(start + 1, end), 'matchstr(v:val, match_pattern)'), 'len(v:val) && !(ignore != "" && (v:val =~ ignore))'), 'matchstr(v:val, ''^\s*\zs.*'')'), c)
 	if next == ""
@@ -39,10 +44,14 @@ function! s:join(config)
 	endif
 	call setline(start, line)
 
+
 	if start+1 <= end
 		silent execute start+1 . ',' . end 'delete _'
 	endif
-	normal! -1
+
+	if end <= line("$")
+		normal! -1
+	endif
 endfunction
 
 
@@ -63,6 +72,7 @@ function! jplus#join(config) range
 \		"lastline"  : a:lastline,
 \		"ignore_pattern" : '',
 \		"match_pattern"  : '.*',
+\		"delimiter" : " ",
 \	}, a:config)
 	call s:join(config)
 endfunction
