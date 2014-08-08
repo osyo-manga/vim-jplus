@@ -24,7 +24,6 @@ let s:counfig = {
 
 
 function! s:join(config)
-
 	let ignore =  a:config.ignore_pattern
 	let match_pattern = a:config.match_pattern
 	let c = a:config.delimiter

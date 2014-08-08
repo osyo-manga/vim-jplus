@@ -12,6 +12,7 @@ function! s:config(base)
 	return jplus#config(&filetype, a:base)
 endfunction
 
+
 noremap <silent> <Plug>(jplus-getchar)
 \	:call jplus#join(<SID>config({ "delimiter": getchar() }))<CR>
 
@@ -25,8 +26,9 @@ noremap <silent> <Plug>(jplus-input)
 noremap <silent> <Plug>(jplus-input-with-space)
 \	:call jplus#join(<SID>config({ "delimiter": ' ' . input("Input joint sep:") . ' ' }))<CR>
 
+
 noremap <silent> <Plug>(jplus)
-\	:call jplus#join(<SID>config({ "delimiter" : " " }))<CR>
+\	:call jplus#join(<SID>config({}))<CR>
 
 
 let &cpo = s:save_cpo
