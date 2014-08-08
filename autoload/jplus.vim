@@ -36,11 +36,11 @@ function! s:join(config)
 		return
 	endif
 
-	let next = join(map(filter(map(getline(start + 1, end), 'matchstr(v:val, match_pattern)'), 'len(v:val) && !(ignore != "" && (v:val =~ ignore))'), 'matchstr(v:val, ''^\s*\zs.*'')'), c)
+	let next = join(map(map(filter(getline(start + 1, end), 'len(v:val) && !(ignore != "" && (v:val =~ ignore))'), 'matchstr(v:val, match_pattern)'), 'matchstr(v:val, ''^\s*\zs.*'')'), c)
 	if next == ""
-		let line = matchstr(getline(start), match_pattern)
+		let line = getline(start)
 	else
-		let line = matchstr(getline(start), match_pattern) . c . next
+		let line = getline(start) . c . next
 	endif
 	call setline(start, line)
 
