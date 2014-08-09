@@ -55,7 +55,7 @@ endfunction
 
 
 
-let g:jplus#config = get(g:, "jplus#configs", {})
+let g:jplus#config = get(g:, "jplus#config", {})
 
 function! jplus#get_config(filetype, ...)
 	let base = get(a:, 1, {})
