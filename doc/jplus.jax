@@ -50,6 +50,9 @@ after: >
 ------------------------------------------------------------------------------
 マッピング					*jplus-mapping*
 
+<Plug>(jplus)					*<Plug>(jplus)*
+	|J| と同様に行の結合を行います。
+
 <Plug>(jplus-getchar)				*<Plug>(jplus-getchar)*
 	挿入文字を入力して行の結合を行います。
 	挿入文字の入力には |getchar()| が使用されます。
@@ -65,6 +68,57 @@ after: >
 <Plug>(jplus-input-with-space)			*<Plug>(jplus-input-with-space)*
 	|<Plug>(jplus-input)| と同様の動作ですが、挿入文字の左右にスペー
 	スを挿入します。
+
+
+==============================================================================
+設定						*jplus-setting*
+
+------------------------------------------------------------------------------
+変数						*jplus-variables*
+
+g:jplus#config					*g:jplus#config*
+	'filetype' をキーとした設定を記述します。
+	"_" をキーとした場合はデフォルトの設定として使用します。
+	この設定は |<Plug>(jplus)| などのキーマッピングを使用した場合に参照さ
+	れます。
+	各 'filetype' ごとの設定は以下をキーとした辞書を設定します。
+
+	"delimiter"        : 結合時に使用する区切り文字
+	"ignore_pattern"   : 結合を行わない行テキストのパターン
+	"matchstr_pattern" : 実際に結合する行テキストのパターン
+
+Example: >
+	" filetype=vim で結合する場合
+	" コメント行は結合せず（ignore_pattern）
+	" 行頭の \ を取り除き結合を行う（matchstr_pattern）
+	let g:jplus#config = {
+	\	"vim" : {
+	\		"ignore_pattern" : '^\s*"[^"]*',
+	\		"matchstr_pattern" : '\s*\\\s*\zs.*\|\s*\zs.*'
+	\	}
+	\}
+<
+	NOTE: |<Plug>(jplus-getchar)| などで入力した区切り文字は |g:jplus#config|
+	で設定した "delimiter" よりも優先されます。
+	NOTE: 行結合した場合に行の先頭のスペースを取り除く処理は
+	"matchstr_pattern" で行っています。|g:jplus#config| で
+	"matchstr_pattern" を設定した場合はその設定が上書きされるので注意して
+	ください。
+
+==============================================================================
+FAQ						*jplus-FAQ*
+
+Q. Vim script の 先頭の \ を取り除いて結合したい
+
+A. |g:jplus#config| に "matchstr_pattern" を設定します。
+>
+	" matchstr_pattern に \ を除いてマッチするパターンを設定する
+	let g:jplus#config = {
+	\	"vim" : {
+	\		"matchstr_pattern" : '\s*\\\s*\zs.*\|\s*\zs.*'
+	\	}
+	\}
+<
 
 
 ==============================================================================
