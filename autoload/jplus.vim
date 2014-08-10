@@ -23,26 +23,40 @@ let s:counfig = {
 \}
 
 
+function! s:join_list(list, c, ignore, left_match, right_match)
+	let list = filter(a:list, 'len(v:val) && !(a:ignore != "" && (v:val =~ a:ignore))')
+	let result = list[0]
+	for i in list[1:]
+		let result = matchstr(result, a:left_match) . a:c . matchstr(i, a:right_match)
+	endfor
+	return result
+endfunction
+
+
+
 function! s:join(config)
 	let ignore =  a:config.ignore_pattern
-	let matchstr_pattern = a:config.matchstr_pattern
+	let left_matchstr = a:config.left_matchstr_pattern
+	let right_matchstr = a:config.right_matchstr_pattern
 	let c = a:config.delimiter
 	let start = a:config.firstline
 	let lastline = a:config.lastline
 	let end = lastline + (start == lastline)
+	let matchstr_range = [1, 0]
 
 	if end > line("$")
 		return
 	endif
 
-	let next = join(map(filter(getline(start + 1, end), 'len(v:val) && !(ignore != "" && (v:val =~ ignore))'), 'matchstr(v:val, matchstr_pattern)'), c)
-	if next == ""
-		let line = getline(start)
-	else
-		let line = getline(start) . c . next
-	endif
+" 	let next = join(map(filter(getline(start + 1, end), 'len(v:val) && !(ignore != "" && (v:val =~ ignore))'), 'matchstr(v:val, matchstr_pattern)'), c)
+" 	if next == ""
+" 		let line = getline(start)
+" 	else
+" 		let line = getline(start) . c . next
+" 	endif
+" 	let line = s:join_list(getline(start, end), c, ignore, matchstr_pattern, matchstr_range)
+	let line = s:join_list(getline(start, end), c, ignore, left_matchstr, right_matchstr)
 	call setline(start, line)
-
 
 	if start+1 <= end
 		silent execute start+1 . ',' . end 'delete _'
@@ -66,12 +80,16 @@ endfunction
 
 
 function! jplus#join(config) range
+	if &modifiable == 0
+		return
+	endif
 	let config = extend({
 \		"firstline" : a:firstline,
 \		"lastline"  : a:lastline,
 \		"ignore_pattern" : '',
-\		"matchstr_pattern"  : '^\s*\zs.*',
 \		"delimiter" : " ",
+\		"left_matchstr_pattern" : '.*',
+\		"right_matchstr_pattern" : '\s*\zs.*',
 \	}, a:config)
 	call s:join(config)
 endfunction
