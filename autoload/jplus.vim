@@ -14,15 +14,6 @@ function! jplus#getchar()
 endfunction
 
 
-let s:counfig = {
-\	"ignore_pattern" : '.*',
-\	"matchstr_pattern"  : '.*',
-\	"firstline" : 0,
-\	"lastline" : 0,
-\	"delimiter" : "",
-\}
-
-
 function! s:join_list(list, c, ignore, left_match, right_match)
 	let list = filter(a:list, 'len(v:val) && !(a:ignore != "" && (v:val =~ a:ignore))')
 	let result = list[0]
@@ -48,14 +39,9 @@ function! s:join(config)
 		return
 	endif
 
-" 	let next = join(map(filter(getline(start + 1, end), 'len(v:val) && !(ignore != "" && (v:val =~ ignore))'), 'matchstr(v:val, matchstr_pattern)'), c)
-" 	if next == ""
-" 		let line = getline(start)
-" 	else
-" 		let line = getline(start) . c . next
-" 	endif
-" 	let line = s:join_list(getline(start, end), c, ignore, matchstr_pattern, matchstr_range)
 	let line = s:join_list(getline(start, end), c, ignore, left_matchstr, right_matchstr)
+
+	let view = winsaveview()
 	call setline(start, line)
 
 	if start+1 <= end
@@ -65,16 +51,42 @@ function! s:join(config)
 	if end <= line("$")
 		normal! -1
 	endif
+	call winrestview(view)
 endfunction
 
+
+let g:jplus#default_config = {
+\	"_" : {
+\		"left_matchstr_pattern" : '.*',
+\		"right_matchstr_pattern" : '\s*\zs.*',
+\		"ignore_pattern" : '',
+\		"delimiter" : " ",
+\	},
+\	"c" : {
+\		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
+\	},
+\	"cpp" : {
+\		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
+\	},
+\	"ruby" : {
+\		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
+\	},
+\	"python" : {
+\		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
+\	},
+\	"vim" : {
+\		"right_matchstr_pattern" : '^\s*\\\s*\zs.*',
+\	}
+\}
 
 
 let g:jplus#config = get(g:, "jplus#config", {})
 
 function! jplus#get_config(filetype, ...)
 	let base = get(a:, 1, {})
+	let config = extend(deepcopy(g:jplus#default_config), g:jplus#config)
 	return extend(
-\		extend(get(g:jplus#config, "_", {}), get(g:jplus#config, a:filetype, {}))
+\		extend(get(config, "_", {}), get(config, a:filetype, {}))
 \	, base)
 endfunction
 
@@ -86,10 +98,6 @@ function! jplus#join(config) range
 	let config = extend({
 \		"firstline" : a:firstline,
 \		"lastline"  : a:lastline,
-\		"ignore_pattern" : '',
-\		"delimiter" : " ",
-\		"left_matchstr_pattern" : '.*',
-\		"right_matchstr_pattern" : '\s*\zs.*',
 \	}, a:config)
 	call s:join(config)
 endfunction
