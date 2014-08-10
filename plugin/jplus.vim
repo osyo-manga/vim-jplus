@@ -13,12 +13,16 @@ function! s:config(base)
 endfunction
 
 
+function! s:input_config(input, base)
+	return jplus#get_input_config(a:input, &filetype, a:base)
+endfunction
+
+
 noremap <silent> <Plug>(jplus-getchar)
-\	:call jplus#join(<SID>config({ "delimiter": getchar() }))<CR>
+\	:call jplus#join(<SID>input_config(jplus#getchar(), {}))<CR>
 
 noremap <silent> <Plug>(jplus-getchar-with-space)
-\	:call jplus#join(<SID>config({ "delimiter": ' ' . jplus#getchar() . ' ' }))<CR>
-
+\	:call jplus#join(<SID>input_config(jplus#getchar(), { "delimtier_format" : " %c " }))<CR>
 
 noremap <silent> <Plug>(jplus-input)
 \	:call jplus#join(<SID>config({ "delimiter": input("Input joint sep:") }))<CR>
