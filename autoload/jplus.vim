@@ -61,6 +61,10 @@ let g:jplus#default_config = {
 \		"right_matchstr_pattern" : '\s*\zs.*',
 \		"ignore_pattern" : '',
 \		"delimiter" : " ",
+\		"delimiter_format" : "%c",
+\	},
+\	"bash" : {
+\		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
 \	},
 \	"c" : {
 \		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
@@ -76,7 +80,10 @@ let g:jplus#default_config = {
 \	},
 \	"vim" : {
 \		"right_matchstr_pattern" : '^\s*\\\s*\zs.*',
-\	}
+\	},
+\	"zsh" : {
+\		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
+\	},
 \}
 
 
