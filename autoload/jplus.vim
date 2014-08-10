@@ -3,6 +3,14 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
+function! s:extend_list(list)
+	return empty(a:list)    ? {}
+\		 : len(a:list) == 1 ? a:list[0]
+\		 : extend(deepcopy(a:list[0]), s:extend_list(a:list[1:]))
+endfunction
+
+
+
 function! jplus#getchar()
 	let c = getchar()
 	if type(c) == type(0)
@@ -29,7 +37,7 @@ function! s:join(config)
 	let ignore =  a:config.ignore_pattern
 	let left_matchstr = a:config.left_matchstr_pattern
 	let right_matchstr = a:config.right_matchstr_pattern
-	let c = a:config.delimiter
+	let c = substitute(a:config.delimiter_format, '%c', a:config.delimiter, "g")
 	let start = a:config.firstline
 	let lastline = a:config.lastline
 	let end = lastline + (start == lastline)
@@ -53,6 +61,8 @@ function! s:join(config)
 	endif
 	call winrestview(view)
 endfunction
+
+
 
 
 let g:jplus#default_config = {
@@ -79,7 +89,7 @@ let g:jplus#default_config = {
 \		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
 \	},
 \	"vim" : {
-\		"right_matchstr_pattern" : '^\s*\\\s*\zs.*',
+\		"right_matchstr_pattern" : '^\s*\\\s*\zs.*\|\s*\zs.*',
 \	},
 \	"zsh" : {
 \		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
@@ -90,12 +100,31 @@ let g:jplus#default_config = {
 let g:jplus#config = get(g:, "jplus#config", {})
 
 function! jplus#get_config(filetype, ...)
-	let base = get(a:, 1, {})
-	let config = extend(deepcopy(g:jplus#default_config), g:jplus#config)
-	return extend(
-\		extend(get(config, "_", {}), get(config, a:filetype, {}))
-\	, base)
+	return s:extend_list([
+\		get(g:jplus#default_config, "_", {}),
+\		get(g:jplus#config, "_", {}),
+\		get(g:jplus#default_config, a:filetype, {}),
+\		get(g:jplus#config, a:filetype, {}),
+\		get(a:, 1, {})
+\	])
 endfunction
+
+
+let g:jplus#input_config = get(g:, "jplus#input_config", {})
+
+function! jplus#get_input_config(input, filetype, ...)
+	return s:extend_list([
+\		get(g:jplus#default_config, "_", {}),
+\		get(g:jplus#config, "_", {}),
+\		get(g:jplus#input_config, "_", {}),
+\		get(g:jplus#default_config, a:filetype, {}),
+\		get(g:jplus#config, a:filetype, {}),
+\		{ "delimiter" : a:input },
+\		get(g:jplus#input_config, a:input, {}),
+\		get(a:, 1, {})
+\	])
+endfunction
+
 
 
 function! jplus#join(config) range
