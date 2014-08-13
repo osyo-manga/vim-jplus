@@ -37,7 +37,7 @@ function! s:join(config)
 	let ignore =  a:config.ignore_pattern
 	let left_matchstr = a:config.left_matchstr_pattern
 	let right_matchstr = a:config.right_matchstr_pattern
-	let c = substitute(a:config.delimiter_format, '%c', a:config.delimiter, "g")
+	let c = substitute(a:config.delimiter_format, '%d', a:config.delimiter, "g")
 	let start = a:config.firstline
 	let lastline = a:config.lastline
 	let end = lastline + (start == lastline)
@@ -71,7 +71,7 @@ let g:jplus#default_config = {
 \		"right_matchstr_pattern" : '\s*\zs.*',
 \		"ignore_pattern" : '',
 \		"delimiter" : " ",
-\		"delimiter_format" : "%c",
+\		"delimiter_format" : "%d",
 \	},
 \	"bash" : {
 \		"left_matchstr_pattern" : '^.\{-}\%(\ze\s*\\$\|$\)',
@@ -116,7 +116,7 @@ function! jplus#get_input_config(input, filetype, ...)
 	return s:extend_list([
 \		get(g:jplus#default_config, "_", {}),
 \		get(g:jplus#config, "_", {}),
-\		get(g:jplus#input_config, "_", {}),
+\		get(g:jplus#input_config, "__DEFAULT__", {}),
 \		get(g:jplus#default_config, a:filetype, {}),
 \		get(g:jplus#config, a:filetype, {}),
 \		{ "delimiter" : a:input },
