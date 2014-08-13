@@ -1,7 +1,6 @@
 # jplus.vim
 
-任意の区切り文字を挿入したりして行結合を行うためのプラグインです。
-
+結合時に区切り文字を入力したり、行継続のキーワード(\ 等)などを削除して行結合を行うプラグインです。
 
 ## Screencapture
 
@@ -18,14 +17,7 @@
 ```vim
 " J の挙動を jplus.vim で行う
 nmap J <Plug>(jplus)
-
-" filetype=vim で凝結号する際に行頭の \ を取り除いて結合する設定を行う
-let g:jplus#config = {
-\	"vim" : {
-\		"ignore_pattern" : '^\s*"[^"]*',
-\		"matchstr_pattern" : '\s*\\\s*\zs.*\|\s*\zs.*'
-\	}
-\}
+vmap J <Plug>(jplus)
 
 " getchar() を使用して挿入文字を入力します
 nmap <Leader>J <Plug>(jplus-getchar)
@@ -34,6 +26,14 @@ vmap <Leader>J <Plug>(jplus-getchar)
 " input() を使用したい場合はこちらを使用して下さい
 " nmap <Leader>J <Plug>(jplus-input)
 " vmap <Leader>J <Plug>(jplus-input)
+
+" <Plug>(jplus-getchar) 時に左右に空白文字を入れたい場合
+" %d は入力した結合文字に置き換えられる
+let g:jplus#config = {
+\	"_" : {
+\		"delimiter_format" : ' %d '
+\	}
+\}
 ```
 
 
