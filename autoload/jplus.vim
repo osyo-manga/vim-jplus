@@ -67,7 +67,7 @@ endfunction
 
 let g:jplus#default_config = {
 \	"_" : {
-\		"left_matchstr_pattern" : '.*',
+\		"left_matchstr_pattern" : '.\{-}\ze\s*$',
 \		"right_matchstr_pattern" : '\s*\zs.*',
 \		"ignore_pattern" : '',
 \		"delimiter" : " ",
