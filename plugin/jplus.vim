@@ -28,7 +28,7 @@ noremap <silent> <Plug>(jplus-input)
 \	:call jplus#join(<SID>input_config(input("Input joint delimiter : "), {}))<CR>
 
 noremap <silent> <Plug>(jplus-input-with-space)
-\	:call jplus#join(<SID>input_config(input("Input joint delimiter :") { "delimtier_format" : " %d " }))<CR>
+\	:call jplus#join(<SID>input_config(input("Input joint delimiter :"), { "delimtier_format" : " %d " }))<CR>
 
 
 noremap <silent> <Plug>(jplus)
