@@ -13,7 +13,7 @@ endfunction
 
 function! jplus#getchar()
 	let c = nr2char(getchar())
-	return c ~= '[[:print:]]' ? c : ""
+	return c =~ '[[:print:]]' ? c : ""
 endfunction
 
 
