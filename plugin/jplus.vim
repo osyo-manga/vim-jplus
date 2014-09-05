@@ -22,13 +22,13 @@ noremap <silent> <Plug>(jplus-getchar)
 \	:call jplus#join(<SID>input_config(jplus#getchar(), {}))<CR>
 
 noremap <silent> <Plug>(jplus-getchar-with-space)
-\	:call jplus#join(<SID>input_config(jplus#getchar(), { "delimtier_format" : " %d " }))<CR>
+\	:call jplus#join(<SID>input_config(jplus#getchar(), { "delimiter_format" : " %d " }))<CR>
 
 noremap <silent> <Plug>(jplus-input)
 \	:call jplus#join(<SID>input_config(input("Input joint delimiter : "), {}))<CR>
 
 noremap <silent> <Plug>(jplus-input-with-space)
-\	:call jplus#join(<SID>input_config(input("Input joint delimiter :") { "delimtier_format" : " %d " }))<CR>
+\	:call jplus#join(<SID>input_config(input("Input joint delimiter :"), { "delimiter_format" : " %d " }))<CR>
 
 
 noremap <silent> <Plug>(jplus)
