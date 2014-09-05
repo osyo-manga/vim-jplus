@@ -12,13 +12,8 @@ endfunction
 
 
 function! jplus#getchar()
-	let c = getchar()
-	if type(c) == type(0)
-		return nr2char(c)
-	endif
-	if c !~ '[[:print:]]'
-		return 0
-	endif
+	let c = nr2char(getchar())
+	return c ~= '[[:print:]]' ? c : ""
 endfunction
 
 
@@ -61,7 +56,6 @@ function! s:join(config)
 	endif
 	call winrestview(view)
 endfunction
-
 
 
 
@@ -126,7 +120,6 @@ function! jplus#get_input_config(input, filetype, ...)
 endfunction
 
 
-
 function! jplus#join(config) range
 	if &modifiable == 0
 		return
@@ -136,12 +129,47 @@ function! jplus#join(config) range
 \		"lastline"  : a:lastline,
 \	}, a:config)
 	call s:join(config)
+	let s:latest_config = a:config
+endfunction
+
+
+function! jplus#join_latest_repeat()
+	if exists("s:latest_config")
+		call jplus#join(s:latest_config)
+	endif
 endfunction
 
 
 function! jplus#mapexpr_join(...)
 	let g:jplus_tmp_config = get(a:, 1, {})
 	return ":call jplus#join(g:jplus_tmp_c, g:jplus_tmp_config)\<CR>"
+endfunction
+
+
+function! s:operatorfunc(wise, ...)
+	let base = get(a:, 1, {})
+	let first = getpos("'[")[1]
+	let last = getpos("']")[1]
+	let config = base
+	call jplus#join(extend({
+\		"firstline" : first,
+\		"lastline"  : last,
+\	}, config))
+endfunction
+
+
+function! jplus#operatorfunc(wise)
+	return s:operatorfunc(a:wise, jplus#get_config(&filetype))
+endfunction
+
+
+function! jplus#operatorfunc_input(wise)
+	return s:operatorfunc(a:wise, jplus#get_input_config(input("Input joint delimiter : "), &filetype))
+endfunction
+
+
+function! jplus#operatorfunc_getchar(wise)
+	return s:operatorfunc(a:wise, jplus#get_input_config(jplus#getchar(), &filetype))
 endfunction
 
 

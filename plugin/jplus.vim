@@ -34,6 +34,15 @@ noremap <silent> <Plug>(jplus-input-with-space)
 noremap <silent> <Plug>(jplus)
 \	:call jplus#join(<SID>config({}))<CR>
 
+nnoremap <silent> <Plug>(operator-jplus)
+\		:set operatorfunc=jplus#operatorfunc<CR>g@
+
+nnoremap <silent> <Plug>(operator-jplus-getchar)
+\		:set operatorfunc=jplus#operatorfunc_getchar<CR>g@
+
+nnoremap <silent> <Plug>(operator-jplus-input)
+\		:set operatorfunc=jplus#operatorfunc_input<CR>g@
+
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
