@@ -34,9 +34,8 @@ function! s:join(config)
 	let right_matchstr = a:config.right_matchstr_pattern
 	let c = substitute(a:config.delimiter_format, '%d', a:config.delimiter, "g")
 	let start = a:config.firstline
-	let lastline = a:config.lastline
+	let lastline = a:config.firstline + a:config.line_num
 	let end = lastline + (start == lastline)
-	let matchstr_range = [1, 0]
 
 	if end > line("$")
 		return
@@ -126,16 +125,23 @@ function! jplus#join(config) range
 	endif
 	let config = extend({
 \		"firstline" : a:firstline,
-\		"lastline"  : a:lastline,
+\		"line_num"  : a:lastline - a:firstline,
 \	}, a:config)
-	call s:join(config)
 	let s:latest_config = a:config
+	let s:latest_config.line_num = config.line_num
+	let &operatorfunc = "jplus#operatorfunc_latest_repeat"
+	call feedkeys("g@g@", "n")
+" 	execute "normal!" (mode() =~# "[vV\<C-v>]") ? "g@" : "g@g@"
 endfunction
 
 
 function! jplus#join_latest_repeat()
 	if exists("s:latest_config")
-		call jplus#join(s:latest_config)
+		let config = extend({
+	\		"firstline" : a:firstline,
+	\		"line_num"  : a:lastline - a:firstline,
+	\	}, s:latest_config)
+		call s:join(config)
 	endif
 endfunction
 
@@ -170,6 +176,11 @@ endfunction
 
 function! jplus#operatorfunc_getchar(wise)
 	return s:operatorfunc(a:wise, jplus#get_input_config(jplus#getchar(), &filetype))
+endfunction
+
+
+function! jplus#operatorfunc_latest_repeat(...)
+	return jplus#join_latest_repeat()
 endfunction
 
 
