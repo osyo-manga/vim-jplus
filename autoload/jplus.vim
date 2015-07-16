@@ -29,27 +29,27 @@ endfunction
 
 
 function! s:add_comment_leader_pattern(current_pattern)
-  if &formatoptions !~ 'j'
-    return a:current_pattern
-  endif
+	if &formatoptions !~ 'j'
+		return a:current_pattern
+	endif
 
-  let flags = '\(^:\|m\)'
-  let to_consider = filter(split(&comments, ','), 'v:val =~ flags')
-  call map(to_consider, 'split(v:val, ":")[-1]')
+	let flags = '\(^:\|m\)'
+	let to_consider = filter(split(&comments, ','), 'v:val =~ flags')
+	call map(to_consider, 'split(v:val, ":")[-1]')
 
-  " Escape special characters
-  let to_escape = '\([*.]\)'
-  let replace_with = '\\\1'
-  call map(to_consider, 'substitute(v:val, to_escape, replace_with, "g")')
+	" Escape special characters
+	let to_escape = '\([*.]\)'
+	let replace_with = '\\\1'
+	call map(to_consider, 'substitute(v:val, to_escape, replace_with, "g")')
 
-  " Construct patterns
-  let before = '^\s*'
-  let after = '\s*\zs.*'
-  call map(to_consider, 'before . v:val . after')
+	" Construct patterns
+	let before = '^\s*'
+	let after = '\s*\zs.*'
+	call map(to_consider, 'before . v:val . after')
 
-  " Note: a:current_pattern MUST come at the end since it might contain '.*'
-  " in the pattern, which will match even the comment leaders
-  return '\%(' . join(to_consider, '\|') . '\|' . a:current_pattern . '\)'
+	" Note: a:current_pattern MUST come at the end since it might contain '.*'
+	" in the pattern, which will match even the comment leaders
+	return '\%(' . join(to_consider, '\|') . '\|' . a:current_pattern . '\)'
 endfunction
 
 
