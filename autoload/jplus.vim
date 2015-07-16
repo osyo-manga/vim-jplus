@@ -106,14 +106,15 @@ endfunction
 let g:jplus#input_config = get(g:, "jplus#input_config", {})
 
 function! jplus#get_input_config(input, filetype, ...)
+	let input = a:input ==# "" ? "__EMPTY__" : a:input
 	return s:extend_list([
 \		get(g:jplus#default_config, "_", {}),
 \		get(g:jplus#config, "_", {}),
 \		get(g:jplus#input_config, "__DEFAULT__", {}),
 \		get(g:jplus#default_config, a:filetype, {}),
 \		get(g:jplus#config, a:filetype, {}),
-\		{ "delimiter" : a:input },
-\		get(g:jplus#input_config, a:input, {}),
+\		{ "delimiter" : input },
+\		get(g:jplus#input_config, input, {}),
 \		get(a:, 1, {})
 \	])
 endfunction
