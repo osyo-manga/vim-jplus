@@ -30,7 +30,7 @@ endfunction
 
 function! s:add_comment_leader_pattern(current_pattern)
   if &formatoptions !~ 'j'
-    return
+    return a:current_pattern
   endif
 
   let flags = '\(^:\|m\)'
