@@ -49,7 +49,7 @@ function! s:add_comment_leader_pattern(current_pattern)
 
   " Note: a:current_pattern MUST come at the end since it might contain '.*'
   " in the pattern, which will match even the comment leaders
-  return '\(' . join(to_consider, '\|') . '\|' . a:current_pattern . '\)'
+  return '\%(' . join(to_consider, '\|') . '\|' . a:current_pattern . '\)'
 endfunction
 
 
