@@ -19,6 +19,11 @@ endfunction
 
 function! s:join_list(list, c, ignore, left_match, right_match)
 	let list = filter(a:list, 'len(v:val) && !(a:ignore != "" && (v:val =~ a:ignore))')
+
+	if empty(list)
+		return []
+	endif
+
 	let result = list[0]
 	for i in list[1:]
 		let result = matchstr(result, a:left_match) . a:c . matchstr(i, a:right_match)
