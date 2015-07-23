@@ -145,13 +145,21 @@ g:jplus#input_config				*g:jplus#input_config*
 	|jplus-config| の設定です。
 	入力された区切り文字をキーとした辞書を設定します.
 	入力された区切り文字によって設定を変えたい場合に使用します。
-	"__DEFAULT__" をキーとした場合はデフォルトの設定として使用します。
+	また、キーにはいくつか特別な意味を持つ単語を設定する事ができます。
+
+	"__DEFAULT__"  : デフォルトの設定として使用
+	"__EMPTY__"    : 区切り文字の入力がなかった場合に使用
+
 Example: >
 	" デフォルトでは結合文字の左右に " " をつける
+	" 入力がなかった場合はスペースを挿入しないで結合する
 	" , で結合する場合は ", " で結合する
 	let g:jplus#input_config = {
 \		"__DEFAULT__" : {
 \			"delimiter_format" : " %d "
+\		},
+\		"__EMPTY__" : {
+\			"delimiter_format" : "%d"
 \		},
 \		"," : {
 \			"delimiter_format" : "%d "
