@@ -144,7 +144,7 @@ function! jplus#get_input_config(input, filetype, ...)
 \		get(g:jplus#input_config, "__DEFAULT__", {}),
 \		get(g:jplus#default_config, a:filetype, {}),
 \		get(g:jplus#config, a:filetype, {}),
-\		{ "delimiter" : input },
+\		{ "delimiter" : a:input },
 \		get(g:jplus#input_config, input, {}),
 \		get(a:, 1, {})
 \	])
