@@ -50,6 +50,10 @@ function! s:add_comment_leader_pattern(current_pattern)
 	let to_consider = filter(split(&comments, ','), 'v:val =~ flags')
 	call map(to_consider, 'split(v:val, ":")[-1]')
 
+	if len(to_consider) == 0
+		return a:current_pattern
+	endif
+
 	" Escape special characters
 	let to_escape = '\([*.]\)'
 	let replace_with = '\\\1'
@@ -61,7 +65,7 @@ function! s:add_comment_leader_pattern(current_pattern)
 	call map(to_consider, 'before . v:val . after')
 
 	" Note: a:current_pattern MUST come at the end since it might contain '.*'
-	" in the pattern, which will match even the comment leaders
+	" in the pattern, which will match even to comment leaders
 	return '\%(' . join(to_consider, '\|') . '\|' . a:current_pattern . '\)'
 endfunction
 
