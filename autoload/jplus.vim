@@ -2,8 +2,6 @@ scriptencoding utf-8
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:Prelude = vital#of("jplus").import("Prelude")
-
 
 " Workaround issues #12
 function! s:escape_substitute_sub(str)
