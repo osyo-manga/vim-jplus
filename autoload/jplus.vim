@@ -2,6 +2,14 @@ scriptencoding utf-8
 let s:save_cpo = &cpo
 set cpo&vim
 
+let s:Prelude = vital#of("jplus").import("Prelude")
+
+
+" Workaround issues #12
+function! s:escape_substitute_sub(str)
+	return substitute(a:str, '&', '\\&', "g")
+endfunction
+
 
 function! s:extend_list(list)
 	return empty(a:list)    ? {}
@@ -63,7 +71,8 @@ function! s:join(config)
 	let ignore =  a:config.ignore_pattern
 	let left_matchstr = a:config.left_matchstr_pattern
 	let right_matchstr = s:add_comment_leader_pattern(a:config.right_matchstr_pattern)
-	let c = substitute(a:config.delimiter_format, '%d', a:config.delimiter, "g")
+	let delimiter = s:escape_substitute_sub(a:config.delimiter)
+	let c = substitute(a:config.delimiter_format, '%d', delimiter, "g")
 	let start = a:config.firstline
 	let lastline = a:config.firstline + a:config.line_num
 	let end = lastline + (start == lastline)
