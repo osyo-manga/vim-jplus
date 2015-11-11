@@ -86,6 +86,8 @@ function! s:join(config)
 	let line = s:join_list(getline(start, end), c, ignore, left_matchstr, right_matchstr)
 
 	let view = winsaveview()
+	let new_col = len(line) - len(matchstr(getline(end), right_matchstr))
+	let view['col'] = new_col - 1
 	call setline(start, line)
 
 	if start+1 <= end
