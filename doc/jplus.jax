@@ -110,7 +110,7 @@ after: >
 
 <Plug>(jplus-input)				*<Plug>(jplus-input)*
 	|<Plug>(jplus-getchar)| と同等の動作ですが、|input()|
-	を使用して入力を行いまsう.
+	を使用して入力を行います.
 
 <Plug>(jplus-input-with-space)			*<Plug>(jplus-input-with-space)*
 	|<Plug>(jplus-input)| と同様の動作ですが、挿入文字の左右にスペー
